@@ -1,0 +1,42 @@
+[
+  {
+    "id": 1,
+    "name":"Daily",
+    "description":"Diário(a)"
+  },
+  {
+    "id": 2,
+    "name":"Weekly",
+    "description":"Semanal"
+  },
+  {
+    "id": 3,
+    "name":"Biweekly",
+    "description":"Quinzenal"
+  },
+  {
+    "id": 4,
+    "name":"Monthly",
+    "description":"Mensal"
+  },
+  {
+    "id": 5,
+    "name":"Bimonthly",
+    "description":"Bimestral"
+  },
+  {
+    "id": 6,
+    "name":"Quarterly",
+    "description":"Trimestral"
+  },
+  {
+    "id": 7,
+    "name":"HalfYearly",
+    "description":"Semestral"
+  },
+  {
+    "id": 8,
+    "name":"Yearly",
+    "description":"Anual"
+  }
+]
