@@ -1,0 +1,17 @@
+[
+  {
+    "id": 1,
+    "name":"To do",
+    "description":"A fazer"
+  },
+  {
+    "id": 2,
+    "name":"Doing",
+    "description":"Fazendo"
+  },
+  {
+    "id": 3,
+    "name":"Done",
+    "description":"Feito"
+  }
+]

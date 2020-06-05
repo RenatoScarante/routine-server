@@ -3,7 +3,24 @@
     "id": 1,
     "userId": 1,
     "name": "Dia da semana",
-    "description": "",
-    "frequencyId": 1
+    "description": "Dia-a-dia",
+    "frequencyId": 1,
+    "start": "06:00",
+    "end": "23:00",
+    "interval": "00:30",
+    "createdAt": "2020-05-22T12:00:00.000Z",
+    "updatedAt": "2020-05-22T12:00:00.000Z"
+  },
+  {
+    "id": 2,
+    "userId": 1,
+    "name": "Sábado",
+    "description": "Rotina de sábado",
+    "frequencyId": 2,
+    "start": "06:00",
+    "end": "23:00",
+    "interval": "00:30",
+    "createdAt": "2020-05-22T12:00:00.000Z",
+    "updatedAt": "2020-05-22T12:00:00.000Z"
   }
 ]

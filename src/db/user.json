@@ -6,8 +6,19 @@
     "cpf": "034.070.059-97",
     "password": "teste",
     "active": true,
-    "createdAt": "2020-05-01",
-    "updatedAt": "2020-05-01",
+    "createdAt": "2020-05-22T12:00:00.000Z",
+    "updatedAt": "2020-05-22T12:00:00.000Z",
+    "lastLogin": ""
+  },
+  {
+    "id": 2,
+    "name": "Renato Inativo",
+    "email": "inativo@scarante.com",
+    "cpf": "034.070.059-97",
+    "password": "teste",
+    "active": false,
+    "createdAt": "2020-05-22T12:00:00.000Z",
+    "updatedAt": "2020-05-22T12:00:00.000Z",
     "lastLogin": ""
   }
 ]

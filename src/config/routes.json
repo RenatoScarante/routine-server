@@ -1,4 +1,3 @@
 {
-  "/api/*": "/$1",
-  "/api/auth/login": "/auth/login"
+  "/api/routine/:id/lines": "/api/routineLine?routineId=:id"
 }

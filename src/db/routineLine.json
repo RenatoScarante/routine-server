@@ -1,0 +1,32 @@
+[
+  {
+    "id": 1,
+    "routineId": 1,
+    "time": "06:00",
+    "title": ""
+  },
+  {
+    "id": 2,
+    "routineId": 1,
+    "time": "06:30",
+    "title": ""
+  },
+  {
+    "id": 3,
+    "routineId": 1,
+    "time": "07:00",
+    "title": ""
+  },
+  {
+    "id": 4,
+    "routineId": 1,
+    "time": "07:30",
+    "title": ""
+  },
+  {
+    "id": 5,
+    "routineId": 1,
+    "time": "08:00",
+    "title": ""
+  }
+]

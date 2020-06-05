@@ -3,7 +3,6 @@ const fs = require("fs");
 
 const jsonServer = require("json-server");
 const router = jsonServer.router(require("../db/db.js")());
-const userdb = JSON.parse(fs.readFileSync("src/db/user.json", "UTF-8"));
 
 const secreteKey = process.env.JWT_SECRET_KEY;
 const expiresIn = process.env.JWT_EXPIRE_IN;
@@ -30,15 +29,6 @@ function isAuthenticated({ email, password }) {
     .get("user")
     .find({ email: email, password: password })
     .value();
-
-  // let user;
-  // const index = userdb.findIndex(
-  //   user => user.email === email && user.password === password
-  // );
-
-  // if (index !== -1) {
-  //   user = { ...userdb[index], password: null };
-  // }
 
   return user;
 }
