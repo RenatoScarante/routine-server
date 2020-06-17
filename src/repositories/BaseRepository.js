@@ -7,19 +7,17 @@ class BaseRepository {
     this._tablename = tablename;
   }
 
-  getById = id => {
-    return db
+  getById = id =>
+    db
       .get(this._tablename)
       .getById(id)
       .value();
-  };
 
-  find = filter => {
-    return db
+  find = filter =>
+    db
       .get(this._tablename)
       .find(filter)
       .value();
-  };
 
   insert = data => {
     var item = db
@@ -40,13 +38,18 @@ class BaseRepository {
       .write();
   };
 
-  filter = (filter, sortBy = "") => {
-    return db
+  delete = filter =>
+    db
+      .get(this._tablename)
+      .remove(filter)
+      .write();
+
+  filter = (filter, sortBy = "") =>
+    db
       .get(this._tablename)
       .filter(filter)
       .sortBy(sortBy)
       .value();
-  };
 }
 
 export default BaseRepository;

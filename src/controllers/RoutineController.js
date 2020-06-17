@@ -1,87 +1,105 @@
-const routineRepository = require("../repositories/RoutineRepository");
-const activityRepository = require("../repositories/ActivityRepository");
-const personRepository = require("../repositories/PersonRepository");
-const routineLineController = require("./RoutineLineController");
+import BaseController from "./BaseController";
+import RoutineService from "../services/RoutineService";
+import RoutineLineService from "../services/RoutineLineService";
 
-const model = "Routine";
-
-// GET /api/routine/:id?_embed=activity
-exports.list = async (req, res, next) => {
-  const routineId = req.params.id * 1;
-  const query = req.query;
-
-  if (query._embed !== "activity") {
-    next();
-    return;
+class RoutineController extends BaseController {
+  constructor() {
+    super(new RoutineService());
+    this._lines = new RoutineLineService();
   }
 
-  try {
-    var routine = routineRepository.getById(routineId);
-
-    var people = personRepository.find({});
-    var list = [];
-
-    people.forEach((person, index) => {
-      list[index] = {
-        person: person,
-        activities: activityRepository.filter(
-          { routineId: routineId, peopleId: person.id },
-          "start"
-        )
-      };
-    });
-
-    res.status(200).json({ routine: routine, list: list });
-  } catch (e) {
-    console.log(e);
-    res
-      .status(500)
-      .send({ message: `Error to create a new ${model}`, error: e });
-  }
-};
-
-exports.create = async (req, res) => {
-  try {
+  create = (req, res) => {
     var newRoutine = req.body;
     var createLines = req.query.createLines === "true" ? true : false;
 
-    var checkData = routineRepository.find({
-      userId: newRoutine.userId,
-      name: newRoutine.name
-    });
+    try {
+      this._service
+        .create(newRoutine)
+        .then(routine => {
+          if (createLines) {
+            this._lines
+              .createLines(routine)
+              .then(lines => this.success(res, { routine, lines }))
+              .catch(error => this.error401(res, error.message));
+          } else {
+            this.success(res, { routine });
+          }
+        })
+        .catch(error => {
+          this.error401(res, error.message);
+        });
+    } catch (e) {
+      this.error500(res, `Error to create a new routine, ${error.message}`);
+    }
+  };
 
-    if (checkData !== undefined) {
-      const status = 401;
-      const message = `${model} exists`;
-      res.status(status).json({ status, message });
+  createLines = (req, res) => {
+    var routine = req.body;
+
+    try {
+      this._lines
+        .createLines(routine)
+        .then(lines => this.success(res, { routine, lines }))
+        .catch(error => this.error401(res, error.message));
+    } catch (e) {
+      this.error500(res, `Error to create a new routine, ${error.message}`);
+    }
+  };
+
+  update = (req, res) => {
+    var routineUpdated = req.body;
+
+    try {
+      this._service
+        .update(routineUpdated)
+        .then(routine => {
+          this.success(res, routine);
+        })
+        .catch(error => {
+          this.error401(res, error.message);
+        });
+    } catch (error) {
+      this.error500(
+        res,
+        `Error to update a routine id ${routineUpdated.id}, ${error.message}`
+      );
+    }
+  };
+
+  delete = (req, res) => {
+    var routineId = req.params.id * 1;
+
+    try {
+      this._lines
+        .deleteLines(routineId)
+        .then(() => {
+          this._service.delete(routineId);
+          this.success(res, "Routine excluded");
+        })
+        .then(error => {
+          this.error401(res, error.message);
+        });
+    } catch (error) {
+      this.error500(
+        res,
+        `Error to delete a routine id ${routineUpdated.id}, ${error.message}`
+      );
+    }
+  };
+
+  list = (req, res) => {
+    const userId = req.params.id * 1;
+    const query = req.query;
+
+    if (query._embed !== "lines") {
+      next();
       return;
     }
 
-    newRoutine = routineRepository.insert(newRoutine);
+    try {
+      this._service.list(userId);
+    } catch (error) {}
+  };
+}
 
-    const lines = !createLines
-      ? []
-      : await routineLineController.create(newRoutine);
-
-    res.status(200).json({ routine: newRoutine, lines: lines });
-  } catch (e) {
-    console.log(e);
-    res
-      .status(500)
-      .send({ message: `Error to create a new ${model}`, error: e });
-  }
-};
-
-exports.createLines = async (req, res) => {
-  try {
-    const routineId = req.params.id;
-
-    const routine = routineRepository.getById(routineId);
-    const lines = await routineLineController.create(newRoutine);
-
-    res.status(200).json({ routine: routine, lines: lines });
-  } catch (e) {
-    console.log(e);
-    res.status(500).send({ message: `Error to create lines.`, error: e });
-  }
-};
+export default RoutineController;

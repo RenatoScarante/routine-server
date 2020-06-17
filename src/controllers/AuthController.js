@@ -4,8 +4,7 @@ import JwtService from "../services/JwtService";
 
 class AuthController extends BaseController {
   constructor() {
-    super();
-    this._authService = new AuthService();
+    super(new AuthService());
     this._jwtService = new JwtService();
   }
 
@@ -39,7 +38,7 @@ class AuthController extends BaseController {
     try {
       const { email, password } = req.body;
 
-      this._authService
+      this._service
         .login(email, password)
         .then(user => {
           const token = this._jwtService.createToken({ email, password });
@@ -47,7 +46,6 @@ class AuthController extends BaseController {
         })
         .catch(error => this.error401(res, error.message));
     } catch (e) {
-      console.log(e);
       this.error500(res, `Error on login, ${e.message}`);
     }
   };
@@ -56,7 +54,7 @@ class AuthController extends BaseController {
     try {
       const newUser = req.body;
 
-      this._authService
+      this._service
         .register(newUser)
         .then(user => {
           this._authService
@@ -72,64 +70,9 @@ class AuthController extends BaseController {
         })
         .catch(error => this.error401(res, error.message));
     } catch (e) {
-      console.log(e);
       this.error500(res, `Error on register, ${e.message}`);
     }
   };
 }
 
 export default AuthController;
-
-// exports.checkAuthorization = async (req, res, next) => {
-//   if (req.baseUrl === process.env.ROUTE_AUTHENTICATION) {
-//     next();
-//     return;
-//   }
-
-//   if (
-//     req.headers.authorization === undefined ||
-//     req.headers.authorization.split(" ")[0] !== "Bearer"
-//   ) {
-//     const status = 401;
-//     const message = "Bad authorization header";
-//     res.status(status).json({ status, message });
-//     return;
-//   }
-//   try {
-//     const token = req.headers.authorization.split(" ")[1];
-//     verifyToken(token);
-//     next();
-//   } catch (err) {
-//     const status = 401;
-//     const message = "Error: access_token is not valid";
-//     res.status(status).json({ status, message });
-//   }
-// };
-
-// // POST /api/auth/login
-// exports.login = async (req, res) => {
-//   const { email, password } = req.body;
-//   let user = isAuthenticated({ email, password });
-
-//   if (user === undefined) {
-//     const status = 401;
-//     const message = "Incorrect email or password.";
-//     res.status(status).json({ status, message });
-//     return;
-//   }
-
-//   if (user.active === false) {
-//     const status = 401;
-//     const message = "User inactive.";
-//     res.status(status).json({ status, message });
-//     return;
-//   }
-
-//   await repository.update({ ...user, lastLogin: new Date() });
-
-//   const token = createToken({ email, password });
-
-//   user = { ...user, password: null };
-
-//   res.status(200).json({ user, token });
-// };

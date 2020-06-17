@@ -1,75 +1,48 @@
-const routineLineRepository = require("../repositories/RoutineLineRepository");
+import BaseController from "./BaseController";
+import RoutineLineService from "../services/RoutineLineService";
 
-const model = "RoutineLine";
-
-function addIntervalToTime(time, interval) {
-  var oldTime = time.split(":");
-  var intervalTime = interval.split(":");
-
-  var timeHour = oldTime[0] * 1;
-  var timeMinute = oldTime[1] * 1;
-
-  var intervalHour = intervalTime[0] * 1;
-  var intervalMinute = intervalTime[1] * 1;
-
-  var newHour = timeHour + intervalHour;
-  var newMinute = 0;
-
-  if (timeMinute + intervalMinute === 60) {
-    newHour++;
-  } else if (timeMinute + intervalMinute < 60) {
-    newMinute = timeMinute + intervalMinute;
-  } else {
-    newHour++;
-    newMinute = timeMinute + intervalMinute - 60;
+class RoutineLineController extends BaseController {
+  constructor() {
+    super(new RoutineLineService());
   }
 
-  var newTime = `${newHour
-    .toString()
-    .padStart(2, "0")}:${newMinute.toString().padStart(2, "0")}`;
+  create = (req, res) => {
+    var newRoutineLine = req.body;
 
-  return newTime;
-}
-
-exports.create = async routine => {
-  try {
-    const startTime = routine.start;
-    const endTime = routine.end;
-    const interval = routine.interval;
-    var lines = [];
-
-    var newTime;
-    var lastTime = startTime;
-
-    var newLine = {
-      routineId: routine.id,
-      time: startTime,
-      title: startTime
-    };
-
-    routineLineRepository.insert(newLine);
-
-    while (newTime !== endTime) {
-      newTime = addIntervalToTime(lastTime, interval);
-
-      newLine = {
-        routineId: routine.id,
-        time: newTime,
-        title: newTime
-      };
-
-      newLine = routineLineRepository.insert(newLine);
-
-      lastTime = newTime;
-
-      lines.push(newLine);
+    try {
+      this._service
+        .create(newRoutineLine)
+        .then(routineLine => {
+          this.success(res, routineLine);
+        })
+        .catch(error => {
+          this.error401(res, error.message);
+        });
+    } catch (e) {
+      this.error500(
+        res,
+        `Error to create a new routine line, ${error.message}`
+      );
     }
+  };
 
-    return lines;
-  } catch (e) {
-    console.log(e);
-    res
-      .status(500)
-      .send({ message: `Error to create a new ${model}`, error: e });
-  }
-};
+  update = (req, res) => {
+    var routineLineUpdated = req.body;
+
+    try {
+      this._service
+        .update(routineLineUpdated)
+        .then(routineLine => {
+          this.success(res, routineLine);
+        })
+        .catch(error => {
+          this.error401(res, error.message);
+        });
+    } catch (error) {
+      this.error500(
+        res,
+        `Error to create a update a routine line id ${routineLineUpdated.id}, ${error.message}`
+      );
+    }
+  };
+}

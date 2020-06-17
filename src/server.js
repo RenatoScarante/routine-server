@@ -3,13 +3,12 @@ require("dotenv").config();
 import ApiController from "./controllers/ApiController";
 import AuthController from "./controllers/AuthController";
 import UserController from "./controllers/UserController";
+import RoutineController from "./controllers/RoutineController";
+import ActivityController from "./controllers/ActivityController";
+import PersonController from "./controllers/PersonController";
 
 const jsonServer = require("json-server");
 const bodyParser = require("body-parser");
-
-const personController = require("./controllers/PersonController");
-const routineController = require("./controllers/RoutineController");
-const activityController = require("./controllers/ActivityController");
 
 const server = jsonServer.create();
 const router = jsonServer.router(require("./db/db.js")());
@@ -17,6 +16,9 @@ const router = jsonServer.router(require("./db/db.js")());
 const apiController = new ApiController();
 const authController = new AuthController();
 const userController = new UserController();
+const routineController = new RoutineController();
+const activityController = new ActivityController();
+const personController = new PersonController();
 
 server.use(jsonServer.defaults());
 server.use(bodyParser.urlencoded({ extended: true }));
@@ -40,14 +42,17 @@ server.post(process.env.ROUTE_AUTH_REGISTER, authController.register);
 // POST /api/user
 server.post(process.env.ROUTE_USER, userController.create);
 
-// POST /api/people
+// POST /api/person
 server.post(process.env.ROUTE_PERSON, personController.create);
+
+// DELETE /api/person
+server.delete(`${process.env.ROUTE_PERSON}/:id`, personController.delete);
 
 // POST /api/routine
 server.post(process.env.ROUTE_ROUTINE, routineController.create);
 
 // PUT /api/routine/:id/lines
-server.put(process.env.ROUTE_ROUTINE_LINE, routineController.createLines);
+server.put(process.env.ROUTE_ROUTINE, routineController.createLines);
 
 // POST /api/activity
 server.post(process.env.ROUTE_ACTIVITY, activityController.create);

@@ -3,8 +3,7 @@ import UserService from "../services/UserService";
 
 class UserController extends BaseController {
   constructor() {
-    super();
-    this._service = new UserService();
+    super(new UserService());
   }
 
   create = (req, res) => {
@@ -13,19 +12,14 @@ class UserController extends BaseController {
       this._service
         .create(newUser)
         .then(user => {
-          res.status(200).json({ user: user });
+          this.success(res, user);
         })
         .catch(error => {
-          const status = 401;
-          const message = error;
-          res.status(status).json({ status, message });
+          this.error401(res, error.message);
           return;
         });
     } catch (e) {
-      console.log(e);
-      res
-        .status(500)
-        .send({ message: `Error to create a new ${model}`, error: e });
+      this.error500(res, `Error to create a new user, ${error.message}`);
     }
   };
 }

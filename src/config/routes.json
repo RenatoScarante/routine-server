@@ -1,3 +1,9 @@
 {
-  "/api/routine/:id/lines": "/api/routineLine?routineId=:id"
+  "/api/user/:id/routines": "/api/routine?userId=:id",
+  "/api/user/:id/routines/lines": "/api/routine?userId=:id&_embed=routineLine",
+  "/api/user/:userId/person": "/api/person?userId=:userId",
+  "/api/routines/:userId": "/api/routine?userId=:userId",
+  "/api/routines/:userId/lines": "/api/routine?userId=:userId&_embed=routineLine",
+  "/api/routine/:id/lines": "/api/routineLine?routineId=:id",
+  "/api/user/:userId/person/:personId/activities": "/api/person/:personId?userId=:userId&_embed=activity"
 }

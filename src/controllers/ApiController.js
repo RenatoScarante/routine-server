@@ -2,7 +2,7 @@ import BaseController from "./BaseController";
 
 class ApiController extends BaseController {
   constructor() {
-    super();
+    super(null);
   }
 
   apiVersion = (req, res, next) => {

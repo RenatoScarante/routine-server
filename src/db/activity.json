@@ -2,7 +2,7 @@
   {
     "id": 1,
     "routineLineId": 1,
-    "peopleId": 1,
+    "personId": 1,
     "title": "Acordar",
     "description": "",
     "start": "06:00",
@@ -15,8 +15,8 @@
   {
     "id": 2,
     "routineLineId": 2,
-    "peopleId": 1,
-    "title": "Tomar café da manhã",
+    "personId": 1,
+    "title": "Café da manhã",
     "description": "",
     "start": "06:30",
     "duration": "00:15",
@@ -28,7 +28,7 @@
   {
     "id": 3,
     "routineLineId": 3,
-    "peopleId": 1,
+    "personId": 1,
     "title": "Passear com a Suzzy",
     "description": "",
     "start": "07:00",
@@ -41,8 +41,8 @@
   {
     "id": 4,
     "routineLineId": 4,
-    "peopleId": 1,
-    "title": "Fazer mamá do Léo",
+    "personId": 1,
+    "title": "Mamá do Léo",
     "description": "",
     "start": "07:30",
     "duration": "00:05",
@@ -54,7 +54,7 @@
   {
     "id": 5,
     "routineLineId": 4,
-    "peopleId": 2,
+    "personId": 2,
     "title": "Acordar",
     "description": "",
     "start": "07:30",
@@ -67,7 +67,7 @@
   {
     "id": 6,
     "routineLineId": 4,
-    "peopleId": 3,
+    "personId": 3,
     "title": "Mamar",
     "description": "",
     "start": "07:30",
